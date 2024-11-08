@@ -68,6 +68,7 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 				printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
 			}
 			frontbuf[i][j] = backbuf[i][j];
+
 		}
 	}
 }
