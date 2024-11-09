@@ -15,11 +15,11 @@
 #define COLOR_CURSOR	112
 #define COLOR_RESOURCE  112
 #define COLOR_RED 64       // 본진 색상
-#define COLOR_YELLOW 6    // 샌드웜 색상
-#define COLOR_BLUE 24      // 하베스터 색상
-#define COLOR_ORANGE 14   // 스파이스 및 자원
-#define COLOR_BLACK 0     // 장판 색상
-#define COLOR_GRAY 128      // 바위 색상
+#define COLOR_YELLOW 224   // 샌드웜 색상
+#define COLOR_BLUE 16      // 하베스터 색상
+#define COLOR_ORANGE 96   // 스파이스 및 자원
+#define COLOR_BLACK 128     // 장판 색상
+#define COLOR_GRAY 112      // 바위 색상
 
 // 지금은 자원, 맵, 커서만 표시
 // 앞으로 화면에 표시할 내용들 여기에 추가하기

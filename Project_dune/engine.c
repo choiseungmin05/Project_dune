@@ -98,20 +98,20 @@ void init(void) {
 			map[0][i][j] = ' ';
 			for (int h_b = 1; h_b < 3; h_b++) {
 				for (int w_b = 1; w_b < 3; w_b++) {
-					map[0][MAP_HEIGHT - h_b - 1][MAP_WIDTH - MAP_WIDTH + w_b] = 'B';
-					map[0][MAP_HEIGHT - MAP_HEIGHT + h_b][MAP_WIDTH - w_b -1] = 'B';
-					map[0][MAP_HEIGHT - h_b - 1][MAP_WIDTH - MAP_WIDTH + w_b + 2] = 'P';
-					map[0][MAP_HEIGHT - MAP_HEIGHT + h_b][MAP_WIDTH - w_b - 3] = 'P';
-					map[0][MAP_HEIGHT / 2 - h_b][MAP_WIDTH / 2 - w_b] = 'R';
-					map[0][MAP_HEIGHT / 2 + h_b][MAP_WIDTH / 2 + w_b] = 'R';
+					map[0][17 - h_b][w_b] = 'B';
+					map[0][h_b][59 - w_b] = 'B';
+					map[0][17 - h_b][w_b + 2] = 'P';
+					map[0][h_b][57 - w_b] = 'P';
+					map[0][9 - h_b][30 - w_b] = 'R';
+					map[0][9 + h_b][30 + w_b] = 'R';
 				}
 
 			}
 			map[0][10][20] = 'R';
 			map[0][6][50] = 'R';
 			map[0][15][55] = 'R';
-			map[0][12][MAP_WIDTH - MAP_WIDTH + 1] = '5';
-			map[0][MAP_HEIGHT - MAP_HEIGHT + 6][MAP_WIDTH - 2] = '5';
+			map[0][12][1] = '5';
+			map[0][6][58] = '5';
 			
 		}
 	}
@@ -120,10 +120,10 @@ void init(void) {
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			map[1][i][j] = -1;
-			map[1][MAP_HEIGHT - 4][MAP_WIDTH - MAP_WIDTH + 1] = 'H';
-			map[1][MAP_HEIGHT - MAP_HEIGHT + 3] [MAP_WIDTH - 2] = 'H';
-			map[1][MAP_HEIGHT - MAP_HEIGHT + 4][MAP_WIDTH - MAP_WIDTH + 5] = 'W';
-			map[1][MAP_HEIGHT - 5][MAP_WIDTH - 8] = 'W';
+			map[1][14][1] = 'H';
+			map[1][3] [58] = 'H';
+			map[1][4][5] = 'W';
+			map[1][13][52] = 'W';
 		}
 	}
 

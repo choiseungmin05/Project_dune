@@ -26,13 +26,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="display.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="engine.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="io.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="display.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -64,10 +64,47 @@ void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (frontbuf[i][j] != backbuf[i][j]) {
-				POSITION pos = {i, j };
+				POSITION pos = { i, j };
 				printc(padd(map_pos, pos), backbuf[i][j], COLOR_DEFAULT);
 			}
 			frontbuf[i][j] = backbuf[i][j];
+
+		}
+	}
+	POSITION pos_r1 = { 10, 20 };
+	printc(padd(map_pos, pos_r1), 'R', COLOR_GRAY);
+	POSITION pos_r2 = { 6,50 };
+	printc(padd(map_pos, pos_r2), 'R', COLOR_GRAY);
+	POSITION pos_r3 = { 15, 50 };
+	printc(padd(map_pos, pos_r3), 'R', COLOR_GRAY);
+	POSITION pos_r4 = { 15, 55 };
+	printc(padd(map_pos, pos_r4), 'R', COLOR_GRAY);
+	POSITION pos1_5 = { 12, 1 };
+	printc(padd(map_pos, pos1_5), '5', COLOR_ORANGE);
+	POSITION pos2_5 = { 6, 58 };
+	printc(padd(map_pos, pos2_5), '5', COLOR_ORANGE);
+	POSITION pos1_w = { 4, 5 };
+	printc(padd(map_pos, pos1_w), 'W', COLOR_YELLOW);
+	POSITION pos2_w = { 13, 52 };
+	printc(padd(map_pos, pos2_w), 'W', COLOR_YELLOW);
+	POSITION pos1_h = { 14, 1 };
+	printc(padd(map_pos, pos1_h), 'H', COLOR_BLUE);
+	POSITION pos2_h = { 3, 58 };
+	printc(padd(map_pos, pos2_h), 'H', COLOR_RED);
+	for (int h_b = 1; h_b < 3; h_b++) {
+		for (int w_b = 1; w_b < 3; w_b++) {
+			POSITION pos1_b = { 17 - h_b, w_b };
+			printc(padd(map_pos, pos1_b), 'B', COLOR_BLUE);
+			POSITION pos2_b = { h_b, 59-w_b };
+			printc(padd(map_pos, pos2_b), 'B', COLOR_RED);
+			POSITION pos1_p = { 17 - h_b, w_b+2 };
+			printc(padd(map_pos, pos1_p), 'P', COLOR_BLACK);
+			POSITION pos2_p = { h_b, 57 - w_b };
+			printc(padd(map_pos, pos2_p), 'P', COLOR_BLACK);
+			POSITION pos1_r = { 9 - h_b, 30 - w_b };
+			printc(padd(map_pos, pos1_r), 'R', COLOR_GRAY);
+			POSITION pos2_r = { 9 + h_b, 30 + w_b };
+			printc(padd(map_pos, pos2_r), 'R', COLOR_GRAY);
 
 		}
 	}
