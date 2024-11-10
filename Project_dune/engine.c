@@ -131,19 +131,44 @@ void init(void) {
 	map[1][obj.pos.row][obj.pos.column] = 'o';
 }
 
+DIRECTION last_direction = d_stay;  // 마지막으로 입력된 방향
+int last_time = 0;  // 마지막 입력 시간
 // (가능하다면) 지정한 방향으로 커서 이동
 void cursor_move(DIRECTION dir) {
 	POSITION curr = cursor.current;
-	POSITION new_pos = pmove(curr, dir);
+	POSITION new_pos;
 
-	// validation check
+	// 연속 입력을 감지하기 위해 같은 방향키가 두 번 눌렸는지 확인
+	if (last_direction == dir && (sys_clock - last_time < 100)) { // 100ms 이내에 같은 키 입력
+		// 4칸 이동
+		new_pos = curr;
+		for (int i = 0; i < 4; i++) {
+			new_pos = pmove(new_pos, dir);
+
+			// 이동 가능한 위치인지 확인
+			if (new_pos.row < 1 || new_pos.row > MAP_HEIGHT - 2 || \
+				new_pos.column < 1 || new_pos.column > MAP_WIDTH - 2) {
+				break;  // 맵의 경계를 넘으면 중단
+			}
+		}
+	}
+	else {
+		// 일반적인 1칸 이동
+		new_pos = pmove(curr, dir);
+	}
+
+	// 위치 유효성 검사 후 커서 이동
 	if (1 <= new_pos.row && new_pos.row <= MAP_HEIGHT - 2 && \
 		1 <= new_pos.column && new_pos.column <= MAP_WIDTH - 2) {
-
 		cursor.previous = cursor.current;
 		cursor.current = new_pos;
 	}
+
+	// 마지막 방향 및 시간 업데이트
+	last_direction = dir;
+	last_time = sys_clock;
 }
+
 
 /* ================= sample object movement =================== */
 POSITION sample_obj_next_position(void) {
