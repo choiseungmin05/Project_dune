@@ -21,6 +21,8 @@ CURSOR cursor = { { 1, 1 }, {1, 1} };
 /* ================= game data =================== */
 char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH] = { 0 };
 
+
+
 RESOURCE resource = { 
 	.spice = 0,
 	.spice_max = 0,
@@ -43,6 +45,12 @@ int main(void) {
 	init();
 	intro();
 	display(resource, map, cursor);
+
+	// 각 섹션 그리기
+	status_wd(61, 1, STATUS_W, STATUS_H);
+	system_wd(0, 19, SYSTEM_W, SYSTEM_H);
+	command_wd(61, 19, COMMAND_W, COMMAND_H);
+
 
 	while (1) {
 		// loop 돌 때마다(즉, TICK==10ms마다) 키 입력 확인
@@ -112,7 +120,6 @@ void init(void) {
 			map[0][15][55] = 'R';
 			map[0][12][1] = '5';
 			map[0][6][58] = '5';
-			
 		}
 	}
 

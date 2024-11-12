@@ -11,8 +11,16 @@
 #define TICK 10		// time unit(ms)
 
 #define N_LAYER 2
-#define MAP_WIDTH	60
-#define MAP_HEIGHT	18
+#define MAP_WIDTH 60
+#define MAP_HEIGHT 18
+
+#define STATUS_W 59
+#define STATUS_H 18
+#define SYSTEM_W 60
+#define SYSTEM_H 10
+#define COMMAND_W 59
+#define COMMAND_H 10
+
 
 
 /* ================= 위치와 방향 =================== */
@@ -91,5 +99,11 @@ typedef struct {
 	int move_period;	// '몇 ms마다 한 칸 움직이는지'를 뜻함
 	int next_move_time;	// 다음에 움직일 시간
 } OBJECT_SAMPLE;
+
+typedef struct {
+	char ch;           // 출력할 문자
+	POSITION pos;     // 위치
+	int color;        // 색상
+} MapElement;
 
 #endif
