@@ -28,6 +28,8 @@ KEY get_key(void) {
 	int byte = _getch();    // 입력된 키를 전달 받기
 	switch (byte) {
 	case 'q': return k_quit;  // 'q'를 누르면 종료
+	case ' ': return k_space;  // 스페이스바를 누르면 k_space 반환
+	case 27: return k_escape;  // Esc 키를 누르면 k_escape 반환
 	case 224:
 		byte = _getch();  // MSB 224가 입력 되면 1바이트 더 전달 받기
 		switch (byte) {
@@ -40,3 +42,6 @@ KEY get_key(void) {
 	default: return k_undef;
 	}
 }
+
+
+

@@ -21,6 +21,7 @@
 #define COLOR_BLACK 128     // 장판 색상
 #define COLOR_GRAY 112      // 바위 색상
 
+
 // 지금은 자원, 맵, 커서만 표시
 // 앞으로 화면에 표시할 내용들 여기에 추가하기
 void display(
@@ -29,5 +30,9 @@ void display(
 	CURSOR cursor
 );
 
+void display_object_info(POSITION curr);
+
 
 #endif
+
+

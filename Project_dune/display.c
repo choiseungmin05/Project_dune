@@ -7,6 +7,7 @@
 
 #include "display.h"
 #include "io.h"
+#include "common.h"
 
 // 출력할 내용들의 좌상단(topleft) 좌표
 const POSITION resource_pos = { 0, 0 };
@@ -127,9 +128,10 @@ void display_cursor(CURSOR cursor) {
 
 	ch = frontbuf[curr.row][curr.column];
 	printc(padd(map_pos, curr), ch, COLOR_CURSOR);
+
 }
 
-//상채창
+//상태창
 void status_wd(int x, int y, int width, int height) {
 	POSITION pos;
 	set_color(COLOR_DEFAULT);
@@ -246,3 +248,142 @@ void command_wd(int x, int y, int width, int height) {
 		printc(pos, '#', COLOR_DEFAULT);
 	}
 }
+
+// 상태창을 지우는 함수
+void clear_status_line(POSITION pos) {
+	gotoxy(pos); // 해당 위치로 커서를 이동
+	set_color(COLOR_DEFAULT); // 기본 색상으로 설정
+	for (int i = 0; i < 57; i++) { // 주어진 너비만큼 비움
+		printf(" "); // 빈 공간으로 덮기
+	}
+}
+
+
+
+// 객체 정보를 출력하는 함수
+void display_object_info(POSITION curr) {
+	set_color(COLOR_DEFAULT);
+	POSITION status_pos = {2, 62}; // 상태창 위치 설정
+
+
+	gotoxy(status_pos); // 상태창 위치로 커서 이동
+
+	// 커서 위치에 따라 객체 정보를 가져와 출력
+	if (curr.row >= 0 && curr.row < MAP_HEIGHT && curr.column >= 0 && curr.column < MAP_WIDTH) {
+		for (int i = 0; i < 10; i++) { // 10줄을 지울 수 있도록 설정
+			clear_status_line((POSITION) { 2 + i, 62 }, 57); // 각 줄을 지웁니다.
+		}
+		if (map[0][curr.row][curr.column] == 'B') {
+			gotoxy((POSITION) { 2, 62 });
+			printf("건물: 본진(아트에이디스)\n");
+			gotoxy((POSITION) { 3, 62 });
+			printf("설명: \n");
+			gotoxy((POSITION) { 4, 62 });
+			printf("건설비용: 없음\n");
+			gotoxy((POSITION) { 5, 62 });
+			printf("내구도: 50\n");
+			gotoxy((POSITION) { 6, 62 });
+			printf("명령어: H:하베스터 생산\n");
+		}
+		else if (map[0][curr.row][curr.column] == 'P') {
+			gotoxy((POSITION) { 2, 62 });
+			printf("건물: 장판\n");
+			gotoxy((POSITION) { 3, 62 });
+			printf("설명: 건물 짓기 전에 깔기\n");
+			gotoxy((POSITION) { 4, 62 });
+			printf("건설비용: 1\n");
+			gotoxy((POSITION) { 5, 62 });
+			printf("내구도: 없음\n");
+			gotoxy((POSITION) { 6, 62 });
+			printf("명령어: 없음\n");
+		}
+		else if (map[0][curr.row][curr.column] == 'R') {
+			gotoxy((POSITION) { 2, 62 });
+			printf("바위\n");
+			gotoxy((POSITION) { 3,62 });
+			printf("설명: 샌드윔은 통과할 수 없음\n");
+		}
+		else if (map[1][curr.row][curr.column] == 'W') {
+			gotoxy((POSITION) { 2, 62 });
+			printf("유닉: 샌드윔\n");
+			gotoxy((POSITION) { 3, 62 });
+			printf("생산비용: 없음\n");
+			gotoxy((POSITION) { 4, 62 }); 
+			printf("인구수: 없음\n");
+			gotoxy((POSITION) { 5, 62 }); 
+			printf("이동주기: 2500\n");
+			gotoxy((POSITION) { 6, 62 }); 
+			printf("공격력: 무한대\n");
+			gotoxy((POSITION) { 7, 62 }); 
+			printf("공격주기: 10000\n");
+			gotoxy((POSITION) { 8, 62 }); 
+			printf("체력: 무한대\n");
+			gotoxy((POSITION) { 9, 62 });
+			printf("시야: 무한대\n");
+			gotoxy((POSITION) { 10, 62 });
+			printf("명령어: 없음\n");
+		}
+		else if (map[0][curr.row][curr.column] == '5') {
+			gotoxy((POSITION) { 2, 62 });
+			printf("유닉: 스파이스\n");
+		}
+		else if (map[1][curr.row][curr.column] == 'H') {
+			gotoxy((POSITION) { 2, 62 });
+			printf("유닉: 하베스터\n");
+			gotoxy((POSITION) { 3, 62 });
+			printf("생산비용: 5\n");
+			gotoxy((POSITION) { 4, 62 });
+			printf("인구수: 5\n");
+			gotoxy((POSITION) { 5, 62 });
+			printf("이동주기: 2000\n");
+			gotoxy((POSITION) { 6, 62 });
+			printf("공격력: 없음\n");
+			gotoxy((POSITION) { 7, 62 });
+			printf("공격주기: 없음\n");
+			gotoxy((POSITION) { 8, 62 });
+			printf("체력: 70\n");
+			gotoxy((POSITION) { 9, 62 });
+			printf("시야: 0\n");
+			gotoxy((POSITION) { 10, 62 });
+			printf("명령어: H:Harvest, M:Move\n");
+		}
+		else {
+			gotoxy((POSITION) { 2, 62 });
+			printf("설명:기본 지형(빈칸),건물을 지을 수 없음\n");
+		}
+	}
+	else {
+		gotoxy((POSITION) { 2, 62 });
+		printf("설명:잘못된 위치입니다.\n");
+	}
+}
+
+// 명령어 정보를 출력하는 함수
+void display_command_info(POSITION curr) {
+	set_color(COLOR_DEFAULT);
+	POSITION command_pos = { 20,  62 }; // 명령어 위치 설정
+	int command_width = 80; // 명령어의 너비
+
+	// 명령어 영역 지우기
+	clear_status_line(command_pos, command_width);
+	gotoxy(command_pos); // 명령어 위치로 커서 이동
+
+	// 커서 위치에 따라 명령어 정보를 가져와 출력
+	if (curr.row >= 0 && curr.row < MAP_HEIGHT && curr.column >= 0 && curr.column < MAP_WIDTH) {
+		if (map[0][curr.row][curr.column] == 'B') {
+			printf("명령어:H: 하베스터 생산\n");
+		}
+		else if (map[1][curr.row][curr.column] == 'H') {
+			printf("명령어: H:Harvest, M:Move\n");
+		}
+		else {
+			printf("\n");
+		}
+	}
+	else {
+		printf("명령어:잘못된 위치입니다.\n");
+	}
+}
+
+
+

@@ -5,6 +5,8 @@
 #include "io.h"
 #include "display.h"
 
+ElementInfo element_info[MAP_HEIGHT][MAP_WIDTH];
+
 void init(void);
 void intro(void);
 void outro(void);
@@ -53,20 +55,37 @@ int main(void) {
 
 
 	while (1) {
-		// loop 돌 때마다(즉, TICK==10ms마다) 키 입력 확인
+		// 키 입력 확인
 		KEY key = get_key();
 
-		// 키 입력이 있으면 처리
+		// 방향키 입력 처리
 		if (is_arrow_key(key)) {
 			cursor_move(ktod(key));
 		}
 		else {
-			// 방향키 외의 입력
+			// 방향키 외의 입력 처리
 			switch (key) {
-			case k_quit: outro();
+			case k_quit:
+				outro();
+				break;
+			case k_space: {  // 스페이스바 입력 처리
+				POSITION curr = cursor.current;
+				display_object_info(curr);  // 객체 정보 출력
+				display_command_info(curr);  // 명령어 정보 출력
+				break;
+			}
+			case k_escape: {  // Esc 키 입력 처리
+				POSITION command_pos = { 20,  62 };
+				clear_status_line(command_pos, 80);
+				for (int i = 0; i < 10; i++) { // 10줄을 지울 수 있도록 설정
+					clear_status_line((POSITION) { 2 + i, 62 }, 57); // 각 줄을 지웁니다.
+				}
+				break;
+			}
 			case k_none:
 			case k_undef:
-			default: break;
+			default:
+				break;
 			}
 		}
 
@@ -75,8 +94,8 @@ int main(void) {
 
 		// 화면 출력
 		display(resource, map, cursor);
-		Sleep(TICK);
-		sys_clock += 10;
+		Sleep(TICK);  // 주기적인 업데이트를 위해 대기
+		sys_clock += 10; // 시스템 시계 업데이트
 	}
 }
 
@@ -92,14 +111,20 @@ void outro(void) {
 	exit(0);
 }
 
+
 void init(void) {
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			map[0][i][j] = ' ';  // 기본값 설정
+		}
+	}
 	// layer 0(map[0])에 지형 생성
 	for (int j = 0; j < MAP_WIDTH; j++) {
 		map[0][0][j] = '#';
 		map[0][MAP_HEIGHT - 1][j] = '#';
 	}
 
-	for (int i = 1; i < MAP_HEIGHT - 1; i++) {
+	for (int i = 1; i < MAP_HEIGHT -1; i++) {
 		map[0][i][0] = '#';
 		map[0][i][MAP_WIDTH - 1] = '#';
 		for (int j = 1; j < MAP_WIDTH-1; j++) {
@@ -136,6 +161,18 @@ void init(void) {
 
 	// object sample
 	map[1][obj.pos.row][obj.pos.column] = 'o';
+
+	// ElementInfo 배열 초기화
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			element_info[i][j] = (ElementInfo){ "", "없음", "없음" }; // 기본값
+		}
+	}
+
+	// 각 위치에 대한 정보 설정
+	element_info[17][20] = (ElementInfo){ "", "없음", "50" }; // B 위치
+	element_info[17][58] = (ElementInfo){ "건물짓기 전에 깔기", "1", "없음" }; // P 위치
+	// 나머지 위치는 필요에 따라 설정
 }
 
 DIRECTION last_direction = d_stay;  // 마지막으로 입력된 방향
@@ -234,3 +271,5 @@ void sample_obj_move(void) {
 
 	obj.next_move_time = sys_clock + obj.speed;
 }
+
+
