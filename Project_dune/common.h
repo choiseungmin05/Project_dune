@@ -14,13 +14,14 @@
 #define MAP_WIDTH 60
 #define MAP_HEIGHT 18
 
+extern char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH];
+
 #define STATUS_W 59
 #define STATUS_H 18
 #define SYSTEM_W 60
 #define SYSTEM_H 10
 #define COMMAND_W 59
 #define COMMAND_H 10
-
 
 
 /* ================= 위치와 방향 =================== */
@@ -40,7 +41,7 @@ typedef struct {
 typedef enum {
 	// k_none: 입력된 키가 없음. d_stay(안 움직이는 경우)에 대응
 	k_none = 0, k_up, k_right, k_left, k_down,
-	k_quit,
+	k_quit, k_space, k_escape,
 	k_undef, // 정의되지 않은 키 입력	
 } KEY;
 
@@ -106,4 +107,14 @@ typedef struct {
 	int color;        // 색상
 } MapElement;
 
+typedef struct {
+	char* description;  // 설명
+	char* construction_cost;  // 건설 비용
+	char* durability;  // 내구도
+} ElementInfo;
+
+
+
 #endif
+
+
