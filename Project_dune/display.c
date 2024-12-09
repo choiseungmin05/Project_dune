@@ -263,7 +263,7 @@ void clear_status_line(POSITION pos) {
 // 객체 정보를 출력하는 함수
 void display_object_info(POSITION curr) {
 	set_color(COLOR_DEFAULT);
-	POSITION status_pos = {2, 62}; // 상태창 위치 설정
+	POSITION status_pos = { 2, 62 }; // 상태창 위치 설정
 
 
 	gotoxy(status_pos); // 상태창 위치로 커서 이동
@@ -300,7 +300,7 @@ void display_object_info(POSITION curr) {
 		else if (map[0][curr.row][curr.column] == 'R') {
 			gotoxy((POSITION) { 2, 62 });
 			printf("바위\n");
-			gotoxy((POSITION) { 3,62 });
+			gotoxy((POSITION) { 3, 62 });
 			printf("설명: 샌드윔은 통과할 수 없음\n");
 		}
 		else if (map[1][curr.row][curr.column] == 'W') {
@@ -308,15 +308,15 @@ void display_object_info(POSITION curr) {
 			printf("유닉: 샌드윔\n");
 			gotoxy((POSITION) { 3, 62 });
 			printf("생산비용: 없음\n");
-			gotoxy((POSITION) { 4, 62 }); 
+			gotoxy((POSITION) { 4, 62 });
 			printf("인구수: 없음\n");
-			gotoxy((POSITION) { 5, 62 }); 
+			gotoxy((POSITION) { 5, 62 });
 			printf("이동주기: 2500\n");
-			gotoxy((POSITION) { 6, 62 }); 
+			gotoxy((POSITION) { 6, 62 });
 			printf("공격력: 무한대\n");
-			gotoxy((POSITION) { 7, 62 }); 
+			gotoxy((POSITION) { 7, 62 });
 			printf("공격주기: 10000\n");
-			gotoxy((POSITION) { 8, 62 }); 
+			gotoxy((POSITION) { 8, 62 });
 			printf("체력: 무한대\n");
 			gotoxy((POSITION) { 9, 62 });
 			printf("시야: 무한대\n");
@@ -361,11 +361,12 @@ void display_object_info(POSITION curr) {
 // 명령어 정보를 출력하는 함수
 void display_command_info(POSITION curr) {
 	set_color(COLOR_DEFAULT);
-	POSITION command_pos = { 20,  62 }; // 명령어 위치 설정
+	POSITION command_pos = { 20, 62 }; // 명령어 위치 설정
 	int command_width = 80; // 명령어의 너비
 
 	// 명령어 영역 지우기
 	clear_status_line(command_pos, command_width);
+
 	gotoxy(command_pos); // 명령어 위치로 커서 이동
 
 	// 커서 위치에 따라 명령어 정보를 가져와 출력
@@ -384,6 +385,3 @@ void display_command_info(POSITION curr) {
 		printf("명령어:잘못된 위치입니다.\n");
 	}
 }
-
-
-
