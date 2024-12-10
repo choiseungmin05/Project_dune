@@ -1,4 +1,5 @@
-﻿#include <stdlib.h>
+﻿
+#include <stdlib.h>
 #include <time.h>
 #include <assert.h>
 #include "common.h"
@@ -25,7 +26,7 @@ char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH] = { 0 };
 
 
 
-RESOURCE resource = { 
+RESOURCE resource = {
 	.spice = 0,
 	.spice_max = 0,
 	.population = 0,
@@ -75,7 +76,11 @@ int main(void) {
 				break;
 			}
 			case k_escape: {  // Esc 키 입력 처리
-				clear_display_info();
+				POSITION command_pos = { 20,  62 };
+				clear_status_line(command_pos, 80);
+				for (int i = 0; i < 10; i++) { // 10줄을 지울 수 있도록 설정
+					clear_status_line((POSITION) { 2 + i, 62 }, 57); // 각 줄을 지웁니다.
+				}
 				break;
 			}
 			case k_none:
@@ -97,7 +102,7 @@ int main(void) {
 
 /* ================= subfunctions =================== */
 void intro(void) {
-	printf("DUNE 1.5\n");		
+	printf("DUNE 1.5\n");
 	Sleep(2000);
 	system("cls");
 }
@@ -120,10 +125,10 @@ void init(void) {
 		map[0][MAP_HEIGHT - 1][j] = '#';
 	}
 
-	for (int i = 1; i < MAP_HEIGHT -1; i++) {
+	for (int i = 1; i < MAP_HEIGHT - 1; i++) {
 		map[0][i][0] = '#';
 		map[0][i][MAP_WIDTH - 1] = '#';
-		for (int j = 1; j < MAP_WIDTH-1; j++) {
+		for (int j = 1; j < MAP_WIDTH - 1; j++) {
 			map[0][i][j] = ' ';
 			for (int h_b = 1; h_b < 3; h_b++) {
 				for (int w_b = 1; w_b < 3; w_b++) {
@@ -149,7 +154,7 @@ void init(void) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			map[1][i][j] = -1;
 			map[1][14][1] = 'H';
-			map[1][3] [58] = 'H';
+			map[1][3][58] = 'H';
 			map[1][4][5] = 'W';
 			map[1][13][52] = 'W';
 		}
@@ -230,7 +235,7 @@ POSITION sample_obj_next_position(void) {
 		}
 		return obj.pos;
 	}
-	
+
 	// 가로축, 세로축 거리를 비교해서 더 먼 쪽 축으로 이동
 	if (abs(diff.row) >= abs(diff.column)) {
 		dir = (diff.row >= 0) ? d_down : d_up;
@@ -238,7 +243,7 @@ POSITION sample_obj_next_position(void) {
 	else {
 		dir = (diff.column >= 0) ? d_right : d_left;
 	}
-	
+
 	// validation check
 	// next_pos가 맵을 벗어나지 않고, (지금은 없지만)장애물에 부딪히지 않으면 다음 위치로 이동
 	// 지금은 충돌 시 아무것도 안 하는데, 나중에는 장애물을 피해가거나 적과 전투를 하거나... 등등
@@ -246,7 +251,7 @@ POSITION sample_obj_next_position(void) {
 	if (1 <= next_pos.row && next_pos.row <= MAP_HEIGHT - 2 && \
 		1 <= next_pos.column && next_pos.column <= MAP_WIDTH - 2 && \
 		map[1][next_pos.row][next_pos.column] < 0) {
-		
+
 		return next_pos;
 	}
 	else {
@@ -267,5 +272,4 @@ void sample_obj_move(void) {
 
 	obj.next_move_time = sys_clock + obj.speed;
 }
-
 
